@@ -1,0 +1,69 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "AI Image & Video Generator",
+    "description": "Generate and edit images and videos using DALL-E, Gemini, and Veo.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://YOUR_NGROK_URL_HERE",
+      "description": "Your local Ngrok or Cloudflare tunnel"
+    }
+  ],
+  "paths": {
+    "/generate_openai_image": {
+      "post": {
+        "operationId": "generateOpenAIImage",
+        "summary": "Generate an image using OpenAI DALL-E",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "prompt": { "type": "string" },
+                  "model": { "type": "string", "default": "dall-e-3" },
+                  "size": { "type": "string", "default": "1024x1024" }
+                },
+                "required": ["prompt"]
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Success" } }
+      }
+    },
+    "/generate_gemini_image": {
+      "post": {
+        "operationId": "generateGeminiImage",
+        "summary": "Generate an image using Google Gemini",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "prompt": { "type": "string" },
+                  "model": { "type": "string" },
+                  "quality": { "type": "string", "enum": ["high", "fast"] }
+                },
+                "required": ["prompt"]
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Success" } }
+      }
+    },
+    "/status": {
+      "get": {
+        "operationId": "getStatus",
+        "summary": "Check server configuration status",
+        "responses": { "200": { "description": "Success" } }
+      }
+    }
+  }
+}
