@@ -1,23 +1,94 @@
 {
   "name": "mcp-ai-image-generator",
-  "version": "1.0.0",
-  "description": "🚀 Ultimate MCP Server for AI Image Generation - Powered by DALL-E 3 & Google Gemini Imagen 3",
+  "version": "1.3.0",
+  "description": "MCP server for AI image generation, editing, and video generation powered by Google Gemini and Veo",
   "main": "dist/index.js",
-  "type": "module",
+  "bin": {
+    "nano-banana-mcp": "dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/seungmanchoi/nano-banana-mcp.git"
+  },
+  "homepage": "https://github.com/seungmanchoi/nano-banana-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/seungmanchoi/nano-banana-mcp/issues"
+  },
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
-    "dev": "tsx src/index.ts"
+    "dev": "tsx src/index.ts",
+    "lint": "eslint src/ --ext .ts",
+    "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test test/*.test.ts"
   },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "model-context-protocol",
+    "claude-code",
+    "claude",
+    "anthropic",
+    "ai",
+    "ai-image",
+    "ai-art",
+    "ai-generation",
+    "gemini",
+    "gemini-api",
+    "google-gemini",
+    "gemini-2.5-flash",
+    "gemini-3-pro",
+    "nano-banana",
+    "image-generation",
+    "image-editing",
+    "image-gen",
+    "text-to-image",
+    "img2img",
+    "generate-image",
+    "edit-image",
+    "photo-editing",
+    "ai-photo",
+    "ai-design",
+    "creative-ai",
+    "generative-ai",
+    "vibe-coding",
+    "vibe-coder",
+    "automation",
+    "art",
+    "design",
+    "illustration",
+    "png",
+    "artwork",
+    "video-generation",
+    "text-to-video",
+    "image-to-video",
+    "veo",
+    "veo-3",
+    "veo-3.1",
+    "ai-video",
+    "video",
+    "mp4"
+  ],
+  "author": "blueng <blueng.choi@gmail.com>",
+  "license": "MIT",
+  "type": "module",
   "dependencies": {
-    "@google/genai": "^0.1.2",
-    "@modelcontextprotocol/sdk": "^1.5.0",
-    "dotenv": "^16.4.7",
-    "zod": "^3.24.2"
+    "@google/genai": "^1.41.0",
+    "@modelcontextprotocol/sdk": "^1.26.0",
+    "dotenv": "^17.3.1",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
-    "@types/node": "^22.13.4",
-    "tsx": "^4.19.2",
-    "typescript": "^5.7.3"
+    "@types/node": "^25.2.3",
+    "@typescript-eslint/eslint-plugin": "^8.55.0",
+    "@typescript-eslint/parser": "^8.55.0",
+    "eslint": "^9.39.2",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
   }
 }

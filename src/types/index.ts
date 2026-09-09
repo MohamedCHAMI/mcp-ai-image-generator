@@ -1,0 +1,82 @@
+import { TextContent, ImageContent } from '@modelcontextprotocol/sdk/types.js';
+
+export type TAuthMode = 'apiKey' | 'gemini-web';
+
+export interface IGoogleCookies {
+  secure1psid: string;
+  secure1psidts?: string;
+}
+
+export interface IAppConfig {
+  authMode: TAuthMode;
+  geminiApiKey?: string;
+  cookies?: IGoogleCookies;
+  model?: string;
+  fastModel?: string;
+  openaiApiKey?: string;
+}
+
+export type TQuality = 'high' | 'fast';
+
+export interface IImageRecord {
+  filePath: string;
+  prompt: string;
+  createdAt: string;
+  type: 'generated' | 'edited';
+}
+
+export interface IVideoRecord {
+  filePath: string;
+  prompt: string;
+  createdAt: string;
+  type: 'generated' | 'extended';
+  model: string;
+  durationSeconds?: number;
+  resolution?: string;
+  aspectRatio?: string;
+}
+
+export type TMediaRecord = IImageRecord | IVideoRecord;
+
+export interface IGenerateParams {
+  prompt: string;
+}
+
+export interface IEditParams {
+  imagePath: string;
+  prompt: string;
+  referenceImages?: string[];
+}
+
+export interface IContinueEditParams {
+  prompt: string;
+  referenceImages?: string[];
+}
+
+export interface IGenerateVideoParams {
+  prompt: string;
+  model?: string;
+  imagePath?: string;
+  lastFramePath?: string;
+  aspectRatio?: string;
+  resolution?: string;
+  durationSeconds?: number;
+  numberOfVideos?: number;
+  negativePrompt?: string;
+}
+
+export interface IExtendVideoParams {
+  prompt: string;
+  model?: string;
+  resolution?: string;
+}
+
+export type TMimeType = 'image/png' | 'image/jpeg' | 'image/webp' | 'image/gif';
+export type TVideoMimeType = 'video/mp4';
+
+export type TContentItem = TextContent | ImageContent;
+
+export interface IGeminiResult {
+  contents: TContentItem[];
+  savedPath: string | null;
+}
