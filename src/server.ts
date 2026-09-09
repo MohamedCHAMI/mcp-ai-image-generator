@@ -11,7 +11,7 @@ import * as fs from "fs/promises";
 import * as path from "path";
 import * as os from "os";
 
-export class NanoBananaMcpServer {
+export class AiImageGeneratorMcpServer {
   private server: Server;
   private geminiApiKey: string | undefined;
   private openaiApiKey: string | undefined;
@@ -19,7 +19,7 @@ export class NanoBananaMcpServer {
   constructor() {
     this.server = new Server(
       {
-        name: "nano-banana-mcp",
+        name: "mcp-ai-image-generator",
         version: "1.0.0",
       },
       {
@@ -174,7 +174,7 @@ export class NanoBananaMcpServer {
 
             const imageBuffer = Buffer.from(base64Image, 'base64');
             const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-            const dirPath = path.join(os.homedir(), "nano-banana-images");
+            const dirPath = path.join(os.homedir(), "ai-generated-images");
             await fs.mkdir(dirPath, { recursive: true });
             const filePath = path.join(dirPath, `gemini_gen_${timestamp}.jpg`);
             await fs.writeFile(filePath, imageBuffer);
@@ -238,7 +238,7 @@ export class NanoBananaMcpServer {
             const base64Image = data.data[0].b64_json;
             const imageBuffer = Buffer.from(base64Image, 'base64');
             const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-            const dirPath = path.join(os.homedir(), "nano-banana-images");
+            const dirPath = path.join(os.homedir(), "ai-generated-images");
             await fs.mkdir(dirPath, { recursive: true });
             const filePath = path.join(dirPath, `openai_gen_${timestamp}.png`);
             await fs.writeFile(filePath, imageBuffer);
@@ -266,6 +266,6 @@ export class NanoBananaMcpServer {
   public async start() {
     const transport = new StdioServerTransport();
     await this.server.connect(transport);
-    console.error("Nano Banana MCP server running on stdio");
+    console.error("AI Image Generator MCP server running on stdio");
   }
 }

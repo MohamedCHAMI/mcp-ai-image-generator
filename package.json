@@ -1,7 +1,7 @@
 {
-  "name": "nano-banana-mcp",
+  "name": "mcp-ai-image-generator",
   "version": "1.0.0",
-  "description": "MCP server for AI image generation powered by Google Gemini and OpenAI",
+  "description": "🚀 Ultimate MCP Server for AI Image Generation - Powered by DALL-E 3 & Google Gemini Imagen 3",
   "main": "dist/index.js",
   "type": "module",
   "scripts": {
