@@ -4,22 +4,23 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 **The Ultimate MCP Server for AI Media Generation - No Gemini API Key Required!**  
-Seamlessly integrate the world's most powerful AI generators directly into your Model Context Protocol (MCP) clients (like Claude Desktop, Codex, etc.). 
+Seamlessly integrate the world's most powerful AI generators directly into your Model Context Protocol (MCP) clients (like Claude Desktop, Codex, etc.) or connect it directly to **ChatGPT on the Web**. 
 
-Generate breathtaking images using **Google's Gemini (Imagen 3)** using your **free, personal Google account**! You don't need to pay for or configure a Google Cloud API key—this MCP server uses your browser session to generate images for free. You can also generate images using **OpenAI's DALL-E 3** right from your chat interface!
+Generate breathtaking images using **Google's Gemini (Imagen 3)** using your **free, personal Google account**! You don't need to pay for or configure a Google Cloud API key—this project uses your browser session to generate images for free. You can also generate images using **OpenAI's DALL-E 3** right from your chat interface!
 
 ---
 
 ## ✨ Features
 
 - 🆓 **Free Personal Account Mode**: Generate and edit images using your free, personal Google account (via `gemini.google.com`). No API key, credit card, or Google Cloud setup needed!
+- 🤖 **ChatGPT Web Support**: Includes an HTTP REST bridge and OpenAPI schema so you can use this directly in ChatGPT Custom GPTs!
 - 🎨 **Multi-Model Image Support**: Access Google Gemini for free, plus optional support for OpenAI's `dall-e-3`.
 - 💾 **Auto-Save & History**: All generated masterpieces are automatically saved locally with full history tracking.
 - 🛠️ **Dynamic Configuration**: Configure your cookies or API keys on the fly directly from the chat.
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Quick Start (Local MCP Clients)
 
 ### 1. Install
 
@@ -30,7 +31,7 @@ npm install
 npm run build
 ```
 
-### 2. Configure your MCP Client
+### 2. Configure your MCP Client (Claude, Codex, etc.)
 
 Add this to your MCP client configuration (e.g., `claude_desktop_config.json`). Notice there are **no API keys** required for Gemini!
 
@@ -54,12 +55,46 @@ Because official Gemini APIs can be used with generic MCPs, the magic of this pr
 1. Go to [gemini.google.com](https://gemini.google.com/) in your regular web browser (Chrome, Safari, etc.) and log in to your personal account.
 2. Open your browser's Developer Tools (Press `F12` or `Cmd+Option+I`) -> **Application** tab -> **Cookies** section -> click on `https://gemini.google.com`.
 3. Find the cookie named **`__Secure-1PSID`** and copy its value.
-4. Inside your MCP client (like Claude), just tell the AI: 
+4. Inside your AI client, just tell the AI: 
    > *"Run the `configure_google_login` tool and use `YOUR_COOKIE_VALUE` as the secure1psid."*
 
 That's it! You can now generate images for free.
 
 *(Note: If you also want to use OpenAI DALL-E 3, you can dynamically provide your API key by asking the AI to run the `configure_openai_api_key` tool).*
+
+---
+
+## 🌐 How to Use with ChatGPT Web (Custom GPTs)
+
+Want to use your free Gemini image generation directly inside ChatGPT on the web? This repo includes a built-in Express server and an `openapi.json` schema precisely for Custom GPT Actions.
+
+### 1. Start the HTTP Bridge
+Open your terminal in the project folder and start the REST server:
+```bash
+npm run serve-http
+```
+In a **new terminal tab**, expose the server to the internet using Ngrok (or Cloudflare):
+```bash
+ngrok http 3333
+```
+*Copy the `https://...` URL that Ngrok generates.*
+
+### 2. Create the Custom GPT in ChatGPT
+1. Go to **ChatGPT** -> Click your profile -> **My GPTs** -> **Create a GPT**.
+2. Click the **Configure** tab.
+3. Scroll down to the bottom and click **"Create new action"**.
+4. In the **Schema** box, paste the entire contents of the `openapi.json` file from this repository.
+5. In the Schema you pasted, find `https://YOUR_NGROK_URL_HERE` and replace it with your actual Ngrok URL.
+6. Save and publish your Custom GPT!
+
+### 3. Authenticate & Generate
+In your new Custom GPT chat, simply tell ChatGPT:
+> *"Configure my Google login using this cookie: [PASTE YOUR __Secure-1PSID COOKIE HERE]"*
+
+ChatGPT will securely send the cookie to your local server. Once configured, you can just ask it naturally:
+> *"Generate an image of a futuristic cyberpunk city."*
+
+ChatGPT will route the request through your machine directly to Gemini using your personal account, completely free!
 
 ---
 
