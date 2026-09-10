@@ -1,8 +1,8 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "AI Image & Video Generator",
-    "description": "Generate and edit images and videos using DALL-E, Gemini, and Veo.",
+    "title": "AI Image Studio (Free Gemini Web Version)",
+    "description": "Generate and edit images via your personal Google account (Gemini Web).",
     "version": "1.0.0"
   },
   "servers": [
@@ -12,10 +12,10 @@
     }
   ],
   "paths": {
-    "/generate_openai_image": {
+    "/configure_google_login": {
       "post": {
-        "operationId": "generateOpenAIImage",
-        "summary": "Generate an image using OpenAI DALL-E",
+        "operationId": "configureGoogleLogin",
+        "summary": "Set your personal Google Account cookie to authenticate",
         "requestBody": {
           "required": true,
           "content": {
@@ -23,11 +23,9 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "prompt": { "type": "string" },
-                  "model": { "type": "string", "default": "dall-e-3" },
-                  "size": { "type": "string", "default": "1024x1024" }
+                  "secure1psid": { "type": "string", "description": "The value of the __Secure-1PSID cookie from gemini.google.com" }
                 },
-                "required": ["prompt"]
+                "required": ["secure1psid"]
               }
             }
           }
@@ -38,7 +36,7 @@
     "/generate_gemini_image": {
       "post": {
         "operationId": "generateGeminiImage",
-        "summary": "Generate an image using Google Gemini",
+        "summary": "Generate a new image using Google Gemini",
         "requestBody": {
           "required": true,
           "content": {
@@ -46,11 +44,33 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "prompt": { "type": "string" },
+                  "prompt": { "type": "string", "description": "Description of the image to generate" },
                   "model": { "type": "string" },
                   "quality": { "type": "string", "enum": ["high", "fast"] }
                 },
                 "required": ["prompt"]
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Success" } }
+      }
+    },
+    "/edit_image": {
+      "post": {
+        "operationId": "editGeminiImage",
+        "summary": "Edit an existing image based on text instructions",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "prompt": { "type": "string", "description": "What to change or edit in the image" },
+                  "imagePath": { "type": "string", "description": "Absolute path to the local image file to edit" }
+                },
+                "required": ["prompt", "imagePath"]
               }
             }
           }
