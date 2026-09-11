@@ -20,7 +20,7 @@ import {
   handleGenerateVideo,
   handleListVideoHistory,
   handleGetStatus,
-  handleGenerateOpenAIImage,
+  handleGenerateOpenAIImage, handleConfigureStorage,
   handleConfigureOpenAIApiKey,
   handleListHistory,
 } from './tools/index.js';
@@ -61,6 +61,7 @@ export class NanoBananaServer {
 
           case 'generate_openai_image':
             return await handleGenerateOpenAIImage(args as { prompt: string; model?: string; size?: string });
+          case 'configure_storage': return await handleConfigureStorage(args as any);
           case 'configure_openai_api_key':
             return await handleConfigureOpenAIApiKey(args as { apiKey: string });
           case 'generate_image':

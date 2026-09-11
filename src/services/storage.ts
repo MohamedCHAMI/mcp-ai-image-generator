@@ -1,6 +1,7 @@
 import { mkdir, writeFile, readFile, stat, access } from 'node:fs/promises';
 import { join, extname } from 'node:path';
 import { homedir, platform } from 'node:os';
+import { settingsManager } from '../config/settings.js';
 import { IImageRecord, IVideoRecord, TMimeType } from '../types/index.js';
 
 const FOLDER_NAME = 'nano-banana-images';
@@ -60,17 +61,24 @@ async function fileExists(filePath: string): Promise<boolean> {
 }
 
 class StorageService {
-  private outputDir: string;
-  private videoOutputDir: string;
-  private historyPath: string;
-  private videoHistoryPath: string;
+  constructor() {}
 
-  constructor() {
-    this.outputDir = resolveOutputDir();
-    this.videoOutputDir = resolveVideoOutputDir();
-    this.historyPath = join(this.outputDir, HISTORY_FILE);
-    this.videoHistoryPath = join(this.videoOutputDir, VIDEO_HISTORY_FILE);
+  get outputDir(): string {
+    return settingsManager.getImageDir() || resolveOutputDir();
   }
+
+  get videoOutputDir(): string {
+    return settingsManager.getVideoDir() || resolveVideoOutputDir();
+  }
+
+  get historyPath(): string {
+    return join(this.outputDir, HISTORY_FILE);
+  }
+
+  get videoHistoryPath(): string {
+    return join(this.videoOutputDir, VIDEO_HISTORY_FILE);
+  }
+
 
   async initialize(): Promise<void> {
     await mkdir(this.outputDir, { recursive: true });

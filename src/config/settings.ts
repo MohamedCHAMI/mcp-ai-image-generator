@@ -24,6 +24,8 @@ const configSchema = z
     model: z.string().min(1).optional(),
     fastModel: z.string().min(1).optional(),
     openaiApiKey: z.string().min(1).optional(),
+    imageDir: z.string().min(1).optional(),
+    videoDir: z.string().min(1).optional(),
   })
   .superRefine((cfg, ctx) => {
     if (cfg.authMode === 'apiKey' && !cfg.geminiApiKey) {
@@ -98,6 +100,8 @@ class SettingsManager {
         model: envModel ?? validated.model,
         fastModel: envFastModel ?? validated.fastModel,
         openaiApiKey: validated.openaiApiKey,
+        imageDir: validated.imageDir,
+        videoDir: validated.videoDir,
       };
       this.source = 'file';
     } catch {
@@ -194,6 +198,13 @@ class SettingsManager {
     if (this.current.openaiApiKey) {
       data.openaiApiKey = this.current.openaiApiKey;
     }
+    if (this.current.imageDir) {
+      data.imageDir = this.current.imageDir;
+    }
+    if (this.current.videoDir) {
+      data.videoDir = this.current.videoDir;
+    }
+
     if (this.current.fastModel) {
       data.fastModel = this.current.fastModel;
     }
@@ -267,6 +278,26 @@ class SettingsManager {
   getOpenAIApiKey(): string | undefined {
     return this.current?.openaiApiKey;
   }
+  async setImageDir(dir: string): Promise<void> {
+    if (!this.current) this.current = { authMode: 'apiKey' };
+    this.current.imageDir = dir;
+    await this.persistConfig();
+  }
+
+  async setVideoDir(dir: string): Promise<void> {
+    if (!this.current) this.current = { authMode: 'apiKey' };
+    this.current.videoDir = dir;
+    await this.persistConfig();
+  }
+
+  getImageDir(): string | undefined {
+    return this.current?.imageDir;
+  }
+
+  getVideoDir(): string | undefined {
+    return this.current?.videoDir;
+  }
+
 }
 
 export const settingsManager = new SettingsManager();

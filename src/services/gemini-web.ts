@@ -392,14 +392,27 @@ class GeminiWebClient {
   }
 
   private async downloadImage(url: string): Promise<{ base64: string; mimeType: string }> {
-    const res = await fetch(url, {
+    let res = await fetch(url, {
       headers: {
         'User-Agent': USER_AGENT,
         Referer: 'https://gemini.google.com/',
         Cookie: this.cookieHeader(),
       },
-      redirect: 'follow',
+      redirect: 'manual',
     });
+
+    // Follow redirects manually to keep the Cookie header but DROP Referer
+    while (res.status >= 300 && res.status < 400) {
+      const location = res.headers.get('location');
+      if (!location) break;
+      res = await fetch(location, {
+        headers: {
+          'User-Agent': USER_AGENT,
+          Cookie: this.cookieHeader(),
+        },
+        redirect: 'manual',
+      });
+    }
 
     if (!res.ok) {
       throw new Error(`이미지 다운로드 실패 (status ${res.status})`);

@@ -1,9 +1,14 @@
+import { fetch as undiciFetch, Agent, setGlobalDispatcher } from "undici";
+setGlobalDispatcher(new Agent({ maxResponseHeadersSize: 1048576 } as any));
+global.fetch = undiciFetch as any;
+
 import express from 'express';
 import { settingsManager } from './config/index.js';
 import { geminiWebClient } from './services/gemini-web.js';
 import { geminiService } from './services/gemini.js';
 import {
   handleGenerateOpenAIImage,
+  handleConfigureStorage,
   handleGenerateImage,
   handleEditImage,
   handleGenerateVideo,
@@ -63,6 +68,11 @@ app.post('/generate_video', async (req, res) => {
   }
 });
 
+
+app.post('/configure_storage', async (req, res) => {
+  const result = await handleConfigureStorage(req.body);
+  res.json(result);
+});
 app.get('/status', async (req, res) => {
   try {
     const result = await handleGetStatus();

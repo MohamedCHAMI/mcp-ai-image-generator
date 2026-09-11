@@ -12,4 +12,5 @@ export {
   handleListHistory,
   handleConfigureOpenAIApiKey,
   handleGenerateOpenAIImage,
+  handleConfigureStorage,
 } from './handlers.js';

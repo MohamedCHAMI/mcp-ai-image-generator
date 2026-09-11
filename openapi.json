@@ -23,14 +23,23 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "secure1psid": { "type": "string", "description": "The value of the __Secure-1PSID cookie from gemini.google.com" }
+                  "secure1psid": {
+                    "type": "string",
+                    "description": "The value of the __Secure-1PSID cookie from gemini.google.com"
+                  }
                 },
-                "required": ["secure1psid"]
+                "required": [
+                  "secure1psid"
+                ]
               }
             }
           }
         },
-        "responses": { "200": { "description": "Success" } }
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
       }
     },
     "/generate_gemini_image": {
@@ -44,16 +53,33 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "prompt": { "type": "string", "description": "Description of the image to generate" },
-                  "model": { "type": "string" },
-                  "quality": { "type": "string", "enum": ["high", "fast"] }
+                  "prompt": {
+                    "type": "string",
+                    "description": "Description of the image to generate"
+                  },
+                  "model": {
+                    "type": "string"
+                  },
+                  "quality": {
+                    "type": "string",
+                    "enum": [
+                      "high",
+                      "fast"
+                    ]
+                  }
                 },
-                "required": ["prompt"]
+                "required": [
+                  "prompt"
+                ]
               }
             }
           }
         },
-        "responses": { "200": { "description": "Success" } }
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
       }
     },
     "/edit_image": {
@@ -67,22 +93,75 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "prompt": { "type": "string", "description": "What to change or edit in the image" },
-                  "imagePath": { "type": "string", "description": "Absolute path to the local image file to edit" }
+                  "prompt": {
+                    "type": "string",
+                    "description": "What to change or edit in the image"
+                  },
+                  "imagePath": {
+                    "type": "string",
+                    "description": "Absolute path to the local image file to edit"
+                  }
                 },
-                "required": ["prompt", "imagePath"]
+                "required": [
+                  "prompt",
+                  "imagePath"
+                ]
               }
             }
           }
         },
-        "responses": { "200": { "description": "Success" } }
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
       }
     },
     "/status": {
       "get": {
         "operationId": "getStatus",
         "summary": "Check server configuration status",
-        "responses": { "200": { "description": "Success" } }
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/configure_storage": {
+      "post": {
+        "summary": "Configure local storage directories for images and videos",
+        "operationId": "configureStorage",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "imageDir": {
+                    "type": "string"
+                  },
+                  "videoDir": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Storage successfully configured",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
       }
     }
   }

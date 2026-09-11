@@ -14,6 +14,8 @@ export interface IAppConfig {
   model?: string;
   fastModel?: string;
   openaiApiKey?: string;
+  imageDir?: string;
+  videoDir?: string;
 }
 
 export type TQuality = 'high' | 'fast';

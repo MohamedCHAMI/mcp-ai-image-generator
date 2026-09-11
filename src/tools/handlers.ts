@@ -353,3 +353,24 @@ export async function handleGenerateOpenAIImage(args: { prompt: string; model?: 
     return textResponse(`OpenAI Generation error: ${msg}`, true);
   }
 }
+
+export async function handleConfigureStorage(args: {
+  imageDir?: string;
+  videoDir?: string;
+}): Promise<CallToolResult> {
+  try {
+    if (args.imageDir) {
+      await settingsManager.setImageDir(args.imageDir);
+    }
+    if (args.videoDir) {
+      await settingsManager.setVideoDir(args.videoDir);
+    }
+    const msg = [];
+    if (args.imageDir) msg.push(`Image output directory set to: ${args.imageDir}`);
+    if (args.videoDir) msg.push(`Video output directory set to: ${args.videoDir}`);
+    if (msg.length === 0) return textResponse('No directory provided.');
+    return textResponse(msg.join('\n'));
+  } catch (error) {
+    return textResponse(String(error), true);
+  }
+}

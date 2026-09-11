@@ -254,6 +254,23 @@ const TOOLS = [
       required: ['prompt'],
     },
   },
+  {
+    name: 'configure_storage',
+    description: 'Set the default directory for saving generated images and videos. Paths can be absolute.',
+    inputSchema: {
+      type: 'object' as const,
+      properties: {
+        imageDir: {
+          type: 'string',
+          description: 'Absolute path to the directory for saving images (e.g. ~/Desktop/Images)',
+        },
+        videoDir: {
+          type: 'string',
+          description: 'Absolute path to the directory for saving videos',
+        }
+      }
+    }
+  },
 ] as const;
 
 export default TOOLS;
